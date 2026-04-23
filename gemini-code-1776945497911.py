@@ -14,8 +14,12 @@ st.markdown("지원 이력과 결원 대체 이력을 분석하여 최적의 병
 
 # 2. 데이터 업로드 세션
 st.sidebar.header("📁 데이터 업로드")
-uploaded_history = st.sidebar.file_uploader("1. 과거 근무표(3~5월) 업로드", type="csv")
-uploaded_blank = st.file_uploader("2. 이번 달 블랭크 배정표 업로드", type="csv")
+uploaded_history = st.sidebar.file_uploader("1. 과거 근무표 업로드", type=["csv", "xlsx"])
+if uploaded_history:
+    if uploaded_history.name.endswith('.csv'):
+        df_hist = pd.read_csv(uploaded_history)
+    else:
+        df_hist = pd.read_excel(uploaded_history) # 엑셀을 읽는 마법의 한 줄!
 
 # 3. 핵심 로직 함수
 def process_history(df):
